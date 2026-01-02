@@ -1,6 +1,5 @@
 "use client";
 
-// import { FilterInput } from "@/components/filter-input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -64,7 +63,7 @@ export function Menu() {
         </div>
       </ScrollArea>
       <Separator className="my-4" />
-      <a href="https://github.com/pontusab/cursor.directory" target="_blank" rel="noreferrer">
+      <a href="https://github.com/ayush-that/sub-agents.directory" target="_blank" rel="noreferrer">
         <Button
           className="w-full bg-[#F5F5F3]/30 text-black border border-black rounded-full items-center justify-center gap-2 font-medium hidden md:flex dark:text-white dark:border-white"
           variant="outline"

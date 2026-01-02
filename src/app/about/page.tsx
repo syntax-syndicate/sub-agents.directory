@@ -14,61 +14,45 @@ export default function About() {
       <div className="space-y-12 mt-10">
         <section>
           <p className="text-[#878787] leading-relaxed text-sm">
-            Our journey with Claude Code has been transformative. As team of one developer and a
-            designer, we've experienced firsthand how Claude Code's sub-agents significantly
-            accelerated our development process. This efficiency boost gave us the bandwidth to
-            build our two startups,{" "}
+            Claude Code's sub-agents are incredibly powerful, but discovering the right prompts for
+            your specific framework or language can be challenging. We built Sub-Agents Directory to
+            solve this problem - a community-driven collection of curated prompts that help
+            developers get the most out of Claude Code's agentic capabilities.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl mb-2">What You'll Find</h2>
+          <p className="text-[#878787] leading-relaxed text-sm">
+            Sub-Agents Directory provides ready-to-use prompts for dozens of frameworks and
+            languages including Next.js, React, Python, TypeScript, Go, Rust, and many more. Each
+            prompt is designed to give Claude Code the context it needs to write better code, follow
+            best practices, and understand your project's conventions.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl mb-2">MCP Servers</h2>
+          <p className="text-[#878787] leading-relaxed text-sm">
+            Beyond prompts, we also curate a collection of Model Context Protocol (MCP) servers that
+            extend Claude Code's capabilities. These servers allow Claude to interact with
+            databases, APIs, and other tools directly, making your development workflow even more
+            powerful.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl mb-2">Community Driven</h2>
+          <p className="text-[#878787] leading-relaxed text-sm">
+            This project is open source and welcomes contributions from the community. If you have a
+            prompt that's been working well for you, consider{" "}
             <a
-              href="https://go.midday.ai/8cX3F4o"
+              href="https://github.com/ayush-that/sub-agents.directory"
               className="text-primary border-border border-dashed border-b-[1px]"
             >
-              Midday
+              submitting it
             </a>{" "}
-            and{" "}
-            <a
-              href="https://go.midday.ai/NnI1CUO"
-              className="text-primary border-border border-dashed border-b-[1px]"
-            >
-              Languine
-            </a>{" "}
-            with incredible velocity.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-xl mb-2">Our Approach</h2>
-          <p className="text-[#878787] leading-relaxed text-sm">
-            As a bootstrapped company, we believe in sustainable growth and maintaining full control
-            over our product vision. We're building our platforms thoughtfully, prioritizing user
-            needs over rapid scaling. With Midday, we're streamlining business operations, while
-            with Languine, we're building localization infrastructure that helps fast-paced startups
-            reach global audiences without slowing down their development velocity.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-xl mb-2">Open Source Commitment</h2>
-          <p className="text-[#878787] leading-relaxed text-sm">
-            We're deeply committed to open source principles. Both Midday and Languine are being
-            built in public, with transparency at their core. We believe that collaboration with the
-            community leads to better products, and we're proud to contribute back to the open
-            source ecosystem. This commitment remains central to our mission, even as we grow and
-            evolve.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-xl mb-2">Follow Our Journey</h2>
-          <p className="text-[#878787] leading-relaxed text-sm">
-            Follow{" "}
-            <a href="https://x.com/pontusab" className="text-primary hover:underline">
-              @pontusab
-            </a>{" "}
-            and{" "}
-            <a href="https://x.com/viktorhofte" className="text-primary hover:underline">
-              @viktorhofte
-            </a>{" "}
-            on X to stay updated with our latest developments on both Midday and Languine.
+            to help other developers.
           </p>
         </section>
       </div>
