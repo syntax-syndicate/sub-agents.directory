@@ -42,14 +42,14 @@ export function CommandMenu({
     };
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, []);
+  }, [setOpen]);
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
       <CommandInput placeholder="Search for a rule..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
-        {rules.map((rule, index) => (
+        {rules.map((rule) => (
           <CommandItem
             key={rule.title}
             onSelect={() => {

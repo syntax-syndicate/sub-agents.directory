@@ -14,6 +14,7 @@ export function AdCardSmall({ ad, small }: { ad: Ad; small?: boolean }) {
           small ? "p-2 pt-4" : "p-4",
         )}
       >
+        {/* oxlint-disable-next-line nextjs/no-html-link-for-pages -- external link */}
         <a href={ad.link} target="_blank" rel="noopener noreferrer" className="h-full">
           <div className="h-full overflow-y-auto">
             <code className={cn("block pr-3", small ? "text-xs" : "text-sm")}>

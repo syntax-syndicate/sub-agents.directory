@@ -25,7 +25,7 @@ export function HeroTitle() {
         Explore a curated collection of sub-agent prompts and MCP servers. <br />
         <a
           className="border-b border-border border-dashed"
-          href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview"
+          href="https://code.claude.com/docs/en/sub-agents"
           target="_blank"
           rel="noreferrer"
         >

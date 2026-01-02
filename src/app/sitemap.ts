@@ -1,4 +1,3 @@
-import type { MCP } from "@/data/mcp";
 import { getSections } from "@/data/rules";
 import type { MetadataRoute } from "next";
 

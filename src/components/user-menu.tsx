@@ -2,7 +2,6 @@
 
 import { createClient } from "@/utils/supabase/client";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -16,15 +15,6 @@ interface Session {
   };
 }
 
-function getInitials(name: string) {
-  return name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-}
-
 export function UserMenu() {
   const pathname = usePathname();
   const supabase = createClient();
@@ -35,7 +25,7 @@ export function UserMenu() {
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
     });
-  }, []);
+  }, [supabase.auth]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();

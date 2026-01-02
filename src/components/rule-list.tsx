@@ -6,7 +6,7 @@ import { RuleCardSmall } from "@/components/rule-card-small";
 import { ads } from "@/data/ads";
 import type { Section } from "@/data/rules";
 import { useQueryState } from "nuqs";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { AdCardSmall } from "./ad-card-small";
 
 const ITEMS_PER_PAGE = 6;
@@ -47,14 +47,14 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
     }))
     .filter((section) => section.rules.length > 0);
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     const bottom =
       Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight;
 
     if (bottom && visibleItems < filteredSections.length) {
       setVisibleItems((prev) => Math.min(prev + ITEMS_PER_PAGE, filteredSections.length));
     }
-  };
+  }, [visibleItems, filteredSections.length]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);

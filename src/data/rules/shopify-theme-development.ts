@@ -357,7 +357,7 @@ alwaysApply: true
 ## HTML
 * Use semantic HTML.
 * Use modern HTML features where appropriate, e.g., use \`<details>\` and \`<summary>\` over JS to show and hide content.
-* Use \`CamelCase\` for IDs. When appending a block or section ID, append \`-\{\{ block.id \}\}\` or \`-\{\{ section.id \}\}\` respectively.
+* Use \`CamelCase\` for IDs. When appending a block or section ID, append \`-{{ block.id }}\` or \`-{{ section.id }}\` respectively.
 
 ### Accessibility
 * Ensure all interactive elements are focusable. e.g., if you use a label to style a checkbox, include \`tabindex="0"\`.

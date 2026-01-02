@@ -301,7 +301,7 @@ async fetch(request) {
 // If there is no alarm currently set, set one for 10 seconds from now
 let currentAlarm = await this.storage.getAlarm();
 if (currentAlarm == null) {
-this.storage.setAlarm(Date.now() + 10 \_ SECONDS);
+this.storage.setAlarm(Date.now() + 10 _ SECONDS);
 }
 }
 async alarm(alarmInfo) {
@@ -313,7 +313,7 @@ console.log("This alarm event has been attempted \${alarmInfo?.retryCount} times
 }
 
 // Set a new alarm for 10 seconds from now before exiting the handler
-this.storage.setAlarm(Date.now() + 10 \_ SECONDS);
+this.storage.setAlarm(Date.now() + 10 _ SECONDS);
 }
 }
 
@@ -364,7 +364,7 @@ AUTH_TOKENS: KVNamespace;
 const app = new Hono<{ Bindings: Env }>()
 
 // Add CORS middleware
-app.use('\*', cors())
+app.use('*', cors())
 
 app.get('/', async (c) => {
 try {

@@ -7,13 +7,7 @@ export async function getSession() {
     error,
   } = await supabase.auth.getSession();
 
-  if (error) {
-    console.error("Error getting session:", error);
-    return null;
-  }
-
-  if (!session) {
-    console.log("No active session found");
+  if (error || !session) {
     return null;
   }
 
