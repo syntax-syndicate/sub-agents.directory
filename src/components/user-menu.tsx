@@ -49,9 +49,9 @@ export function UserMenu() {
         </Button>
       ) : (
         <Link href={`/login?next=${pathname}`}>
-          {/* <Button variant="outline" className="bg-white text-black h-8 rounded-full">
+          <Button variant="outline" className="bg-white text-black h-8 rounded-full">
             Sign In
-          </Button> */}
+          </Button>
         </Link>
       )}
     </motion.div>
