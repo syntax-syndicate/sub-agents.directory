@@ -29,5 +29,13 @@
     "import/no-cycle": "error",
     "unicorn/no-null": "off"
   },
-  "ignorePatterns": ["node_modules", ".next", "dist", "build", "*.config.js", "*.config.mjs"]
+  "ignorePatterns": [
+    "node_modules",
+    ".next",
+    "dist",
+    "build",
+    "*.config.js",
+    "*.config.mjs",
+    "scripts"
+  ]
 }

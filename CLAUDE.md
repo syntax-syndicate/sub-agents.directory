@@ -23,15 +23,29 @@ bun lint             # Run Oxlint
 bun lint:fix         # Auto-fix linting issues
 bun format           # Format code with Oxfmt
 bun format:check     # Check formatting without modifying
+
+# Content Sync
+bun sync             # Sync content from upstream (VoltAgent/awesome-claude-code-subagents)
 ```
 
 ## Architecture
 
 ### Data Flow
 
-- **Rules** (`src/data/rules/`): 87 language/framework rule files exported via `src/data/rules/index.ts`
+- **Content** (`content/`): Markdown files synced from [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents), organized by category
+- **Rules Loader** (`src/data/rules/index.ts`): Parses markdown files with YAML frontmatter at build time
 - **MCP Servers** (`src/data/mcp/index.ts`): Registry of MCP server definitions
 - **API Routes**: Static JSON endpoints at `/api` and `/api/[slug]` with 24h ISR revalidation
+
+### Content Sync
+
+Content is synced from the upstream repository via:
+
+- **Scheduled GitHub Action**: Runs every 6 hours to check for updates
+- **Manual trigger**: Can be run on-demand via GitHub Actions
+- **Local sync**: Run `bun sync` to update content locally
+
+The sync creates a PR when changes are detected, allowing review before merge.
 
 ### Key Patterns
 
@@ -55,24 +69,24 @@ src/
 
 ## Adding New Rules
 
-Create a new file in `src/data/rules/` following this structure:
+Rules are synced from [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents). To contribute:
 
-```typescript
-export const yourRule = {
-  title: "Display Name",
-  slug: "url-friendly-slug",
-  tags: ["Category1", "Category2"],
-  libs: ["optional-library-list"],
-  content: `Your markdown prompt content here`,
-  author: {
-    name: "Author Name",
-    url: "https://author-url.com",
-    avatar: "https://avatar-url.com/image.png"
-  }
-}
+1. Submit a PR to the upstream repository
+2. Once merged, content will sync automatically via GitHub Action
+
+### Content Format
+
+Each rule is a markdown file with YAML frontmatter:
+
+```markdown
+---
+name: agent-name
+description: Brief description of the agent
+tools: Read, Write, Edit, Bash, Glob, Grep
+---
+
+Agent instructions and expertise guidelines in markdown...
 ```
-
-Then export it from `src/data/rules/index.ts`.
 
 ## Environment Variables
 

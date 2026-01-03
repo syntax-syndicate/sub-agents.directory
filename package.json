@@ -10,7 +10,8 @@
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "format": "oxfmt --write",
-    "format:check": "oxfmt --check"
+    "format:check": "oxfmt --check",
+    "sync": "bun run scripts/sync-upstream.ts"
   },
   "dependencies": {
     "@ai-sdk/xai": "^1.1.9",
