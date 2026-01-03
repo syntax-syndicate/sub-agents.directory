@@ -87,8 +87,8 @@ export default function RootLayout({
 
           <Toaster />
         </ThemeProvider>
-        <Script src="https://scripts.simpleanalyticscdn.com/latest.js" />
       </body>
+      <Script src="https://scripts.simpleanalyticscdn.com/latest.js" />
     </html>
   );
 }
