@@ -4,8 +4,6 @@
 
 @layer base {
   :root {
-    /* Anthropic-inspired dark theme */
-    /* Base: #09090b, Card: #1e1917, Accent: #C15F3C, Warm: #d5a27f */
     --background: 240 10% 4%;
     --foreground: 50 23% 95%;
     --card: 17 13% 10%;
