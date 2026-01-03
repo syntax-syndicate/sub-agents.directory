@@ -23,7 +23,8 @@ export const metadata: Metadata = {
   icons: [
     {
       rel: "icon",
-      url: "https://cdn.midday.ai/cursor/favicon.png",
+      url: "/Claude_AI_symbol.svg",
+      type: "image/svg+xml",
     },
   ],
   openGraph: {
