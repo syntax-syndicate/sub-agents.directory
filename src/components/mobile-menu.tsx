@@ -9,10 +9,9 @@ import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 
 const navigationLinks = [
-  { href: "/rules", label: "Rules" },
-  { href: "/mcp", label: "MCP Store" },
+  { href: "/agents", label: "Agents" },
+  { href: "/mcp", label: "MCPs" },
   { href: "/learn", label: "Learn" },
-  // { href: "/advertise", label: "Advertise" },
   { href: "/about", label: "About" },
 ] as const;
 
