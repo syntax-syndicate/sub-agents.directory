@@ -7,23 +7,12 @@ import { GlobalSearchInput } from "./global-search-input";
 import { HeroTitle } from "./hero-title";
 import MCPList from "./mcp-list";
 import { RuleList } from "./rule-list";
-import { ClaudeLogo } from "./ui/claude-logo";
 
 export function GlobalSearch({ sections }: { sections: Section[] }) {
   return (
-    <div>
-      <div className="flex flex-col gap-4 w-full relative mx-auto h-screen">
+    <div className="w-full">
+      <div className="flex flex-col gap-4 w-full relative mx-auto">
         <div className="transition-all duration-1000">
-          <div
-            className="flex justify-center items-center mb-8"
-            style={{
-              opacity: 0,
-              animation: "fadeIn 0.05s ease forwards",
-            }}
-          >
-            <ClaudeLogo />
-          </div>
-
           <HeroTitle />
 
           <div className="max-w-[620px] mx-auto w-full mb-14">

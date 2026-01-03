@@ -1,6 +1,5 @@
 import { Menu } from "@/components/menu";
 import { RuleList } from "@/components/rule-list";
-import { Tabs } from "@/components/tabs";
 import { getSections } from "@/data/rules";
 import { Suspense } from "react";
 
@@ -14,7 +13,6 @@ export default function Page() {
       </div>
 
       <main className="flex-1 p-6 pt-4 md:pt-16 space-y-8">
-        <Tabs />
         <Suspense fallback={null}>
           <RuleList sections={sections} />
         </Suspense>

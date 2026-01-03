@@ -23,7 +23,7 @@ export function SearchList({ data }: { data: MCP[] }) {
         <div key={item.name}>
           <Link
             href={`/mcp/${slugify(item.name, { lower: true })}`}
-            className="flex h-full items-center p-4 transition-colors border border-border hover:bg-accent"
+            className="flex h-full items-center p-4 transition-colors border border-border hover:bg-secondary hover:border-primary/20"
           >
             <div className="flex items-start gap-4 w-full">
               {item.logo && (

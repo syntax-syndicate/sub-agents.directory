@@ -1,34 +1,16 @@
 "use client";
 
-import { AdCard } from "@/components/ad-card";
 import { RuleCard } from "@/components/rule-card";
 import { RuleCardSmall } from "@/components/rule-card-small";
-import { ads } from "@/data/ads";
 import type { Section } from "@/data/rules";
 import { useQueryState } from "nuqs";
-import { Fragment, useCallback, useEffect, useState } from "react";
-import { AdCardSmall } from "./ad-card-small";
+import { useCallback, useEffect, useState } from "react";
 
 const ITEMS_PER_PAGE = 6;
 
 export function RuleList({ sections, small }: { sections: Section[]; small?: boolean }) {
   const [search] = useQueryState("q");
   const [visibleItems, setVisibleItems] = useState(ITEMS_PER_PAGE);
-  const [randomAds, setRandomAds] = useState<(typeof ads)[0][]>([]);
-
-  // Generate random ads after component mounts on client
-  useEffect(() => {
-    const totalPossibleAds = Math.ceil(
-      sections.reduce((sum, section) => sum + section.rules.length, 0) / 9,
-    );
-
-    setRandomAds(
-      Array.from({ length: totalPossibleAds }, () => {
-        const randomIndex = Math.floor(Math.random() * ads.length);
-        return ads[randomIndex];
-      }),
-    );
-  }, [sections]);
 
   // Reset visible items when search changes
   useEffect(() => {
@@ -61,15 +43,9 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  const getRandomAd = (index: number) => {
-    return randomAds[index] || ads[0]; // Fallback to first ad if index not yet available
-  };
-
-  let totalItemsCount = 0;
-
   return (
     <>
-      {filteredSections.slice(0, visibleItems).map((section, idx) => (
+      {filteredSections.slice(0, visibleItems).map((section) => (
         <section key={section.tag} id={section.tag}>
           <h3 className="text-lg font-regular mb-4">{section.tag}</h3>
           <div
@@ -77,27 +53,13 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
               small ? "lg:grid-cols-4" : "lg:grid-cols-2 xl:grid-cols-3"
             }`}
           >
-            {section.rules.map((rule, idx2) => {
-              totalItemsCount++;
-              const shouldShowAd = totalItemsCount % 9 === 0;
-              const adIndex = Math.floor(totalItemsCount / 9) - 1;
-
-              return (
-                <Fragment key={`${idx}-${idx2.toString()}`}>
-                  {small ? (
-                    <>
-                      <RuleCardSmall rule={rule} small />
-                      {shouldShowAd && <AdCardSmall ad={getRandomAd(adIndex)} small />}
-                    </>
-                  ) : (
-                    <>
-                      <RuleCard key={`${idx}-${idx2.toString()}`} rule={rule} />
-                      {shouldShowAd && <AdCard ad={getRandomAd(adIndex)} />}
-                    </>
-                  )}
-                </Fragment>
-              );
-            })}
+            {section.rules.map((rule) =>
+              small ? (
+                <RuleCardSmall key={rule.slug} rule={rule} small />
+              ) : (
+                <RuleCard key={rule.slug} rule={rule} />
+              ),
+            )}
           </div>
         </section>
       ))}

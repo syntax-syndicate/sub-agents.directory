@@ -1,6 +1,7 @@
 import { GlobalSearch } from "@/components/global-search";
 import { getSections } from "@/data/rules";
 import type { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Sub-Agents Directory - Claude Code Sub-Agents & MCP Servers",
@@ -11,8 +12,11 @@ export default function Page() {
   const sections = getSections();
 
   return (
-    <div className="flex justify-center min-h-screen w-full px-2 mt-[10%]">
-      <div className="w-full max-w-6xl">
+    <div className="min-h-screen w-full px-4 pt-[10%]">
+      <div className="w-full max-w-6xl mx-auto">
+        <div className="flex justify-center mb-6">
+          <Image src="/Claude_AI_symbol.svg" alt="Claude AI" width={64} height={64} />
+        </div>
         <GlobalSearch sections={sections} />
       </div>
     </div>

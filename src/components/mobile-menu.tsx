@@ -82,9 +82,9 @@ export function MobileMenu() {
                 }}
               >
                 <Link href="/login" onClick={() => setIsOpen(false)}>
-                  <Button variant="outline" className="bg-white text-black h-8 rounded-full w-full">
+                  {/* <Button variant="outline" className="bg-white text-black h-8 rounded-full w-full">
                     Sign In
-                  </Button>
+                  </Button> */}
                 </Link>
               </motion.div>
             </div>

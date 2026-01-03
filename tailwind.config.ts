@@ -2,8 +2,6 @@ import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
 const config = {
-  darkMode: ["class"],
-  safelist: ["dark", "light"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -59,6 +57,11 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        /* Anthropic palette */
+        terracotta: "#C15F3C",
+        cream: "#F4F3EE",
+        warmgray: "#B1ADA1",
+        caramel: "#d5a27f",
       },
       borderRadius: {
         lg: "var(--radius)",

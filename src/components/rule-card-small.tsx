@@ -62,7 +62,7 @@ export function RuleCardSmall({
           <Popover>
             <PopoverTrigger
               className={cn(
-                "flex gap-2 items-center overflow-x-auto whitespace-nowrap cursor-pointer hover:bg-accent",
+                "flex gap-2 items-center overflow-x-auto whitespace-nowrap cursor-pointer hover:bg-secondary",
                 small ? "h-4" : "h-5",
               )}
             >
