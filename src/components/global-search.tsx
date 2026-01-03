@@ -1,6 +1,6 @@
 "use client";
 
-import type { Section } from "@/data/rules";
+import type { Section } from "@/data/rules/types";
 import { motion } from "motion/react";
 import { Suspense } from "react";
 import { GlobalSearchInput } from "./global-search-input";

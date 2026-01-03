@@ -2,7 +2,7 @@
 
 import { RuleCard } from "@/components/rule-card";
 import { RuleCardSmall } from "@/components/rule-card-small";
-import type { Section } from "@/data/rules";
+import type { Section } from "@/data/rules/types";
 import { useQueryState } from "nuqs";
 import { useCallback, useEffect, useState } from "react";
 
@@ -16,6 +16,38 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
   useEffect(() => {
     setVisibleItems(ITEMS_PER_PAGE);
   }, [search]);
+
+  // Handle hash scroll on mount and hash change
+  useEffect(() => {
+    const scrollToHash = () => {
+      const hash = decodeURIComponent(window.location.hash.slice(1));
+      if (!hash) return;
+
+      // Find which section index this hash corresponds to
+      const sectionIndex = sections.findIndex((s) => s.tag === hash);
+      if (sectionIndex === -1) return;
+
+      // Make sure enough items are visible
+      if (sectionIndex >= visibleItems) {
+        setVisibleItems(sectionIndex + 1);
+      }
+
+      // Wait for render then scroll
+      setTimeout(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          window.scrollTo({
+            top: element.offsetTop - 56,
+            behavior: "smooth",
+          });
+        }
+      }, 100);
+    };
+
+    scrollToHash();
+    window.addEventListener("hashchange", scrollToHash);
+    return () => window.removeEventListener("hashchange", scrollToHash);
+  }, [sections, visibleItems]);
 
   const filteredSections = sections
     .map((section) => ({

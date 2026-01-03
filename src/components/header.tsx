@@ -1,5 +1,6 @@
 "use client";
 
+import type { Rule } from "@/data/rules/types";
 import { cn } from "@/lib/utils";
 import { SearchIcon } from "lucide-react";
 import Link from "next/link";
@@ -11,14 +12,13 @@ import { Button } from "./ui/button";
 import { UserMenu } from "./user-menu";
 
 const navigationLinks = [
-  { href: "/rules", label: "Rules" },
+  { href: "/rules", label: "Agents" },
   { href: "/mcp", label: "MCPs" },
   { href: "/learn", label: "Learn" },
-  // { href: "/advertise", label: "Advertise" },
   { href: "/about", label: "About" },
 ] as const;
 
-export function Header() {
+export function Header({ rules }: { rules: Rule[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -57,7 +57,7 @@ export function Header() {
         </div>
       </div>
       <MobileMenu />
-      <CommandMenu open={open} setOpen={setOpen} />
+      <CommandMenu open={open} setOpen={setOpen} rules={rules} />
     </div>
   );
 }

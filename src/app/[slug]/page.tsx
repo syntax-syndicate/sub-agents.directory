@@ -1,6 +1,6 @@
 import { Menu } from "@/components/menu";
 import { RuleCard } from "@/components/rule-card";
-import { getRuleBySlug, rules } from "@/data/rules";
+import { getRuleBySlug, getSections, rules } from "@/data/rules";
 
 type Params = Promise<{ slug: string }>;
 
@@ -23,6 +23,7 @@ export async function generateStaticParams() {
 export default async function Page({ params }: { params: Params }) {
   const { slug } = await params;
   const rule = getRuleBySlug(slug);
+  const sections = getSections();
 
   if (!rule) {
     return <div>Rule not found</div>;
@@ -30,8 +31,8 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <div className="flex w-full h-full">
-      <div className="hidden md:flex mt-12 sticky top-12 h-[calc(100vh-3rem)]">
-        <Menu />
+      <div className="hidden md:flex mt-12 sticky top-12 h-[calc(100vh-3rem)] z-40">
+        <Menu sections={sections} />
       </div>
 
       <main className="flex-1 p-6 pt-16">

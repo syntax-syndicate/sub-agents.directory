@@ -1,16 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import type { Rule } from "@/data/rules";
+import type { Rule } from "@/data/rules/types";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { CopyButton } from "./copy-button";
 import { ShareButton } from "./share-button";
-
-function truncateContent(content: string, limit: number) {
-  if (content.length <= limit) return content;
-  return `${content.slice(0, limit)}...`;
-}
 
 export function RuleCardSmall({
   rule,
@@ -47,8 +42,8 @@ export function RuleCardSmall({
 
         <Link href={`/${rule.slug}`}>
           <div className="h-full overflow-y-auto">
-            <code className={cn("block pr-3", small ? "text-xs" : "text-sm")}>
-              {small ? truncateContent(rule.content, small ? 70 : 200) : rule.content}
+            <code className={cn("block pr-3", small ? "text-xs line-clamp-3" : "text-sm")}>
+              {small ? rule.description || rule.content : rule.content}
             </code>
           </div>
         </Link>

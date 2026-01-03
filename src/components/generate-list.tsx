@@ -1,6 +1,6 @@
 "use client";
 
-import type { Rule } from "@/data/rules";
+import type { Rule } from "@/data/rules/types";
 import { motion } from "motion/react";
 
 export function GenerateList({ rules }: { rules: Rule[] }) {

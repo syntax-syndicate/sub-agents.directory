@@ -3,50 +3,29 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { getSections } from "@/data/rules";
+import type { Section } from "@/data/rules/types";
 import { PlusIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
-const allSections = getSections();
-
-export function Menu() {
+export function Menu({ sections }: { sections: Section[] }) {
   const router = useRouter();
-  const [sections, setSections] = useState(allSections);
 
   const handleClick = (tag: string) => {
-    router.push("/rules", { scroll: false });
-
-    const element = document.getElementById(tag);
-    if (!element) return;
-
-    window.scrollTo({
-      top: element.offsetTop - 56,
-      behavior: "smooth",
-    });
-
-    // Run the handleClick function first
-    clearSearch();
-  };
-
-  const clearSearch = () => {
-    // Clear the search input
-    setSections(allSections);
+    if (window.location.pathname === "/rules") {
+      const element = document.getElementById(tag);
+      if (element) {
+        window.scrollTo({
+          top: element.offsetTop - 56,
+          behavior: "smooth",
+        });
+      }
+    } else {
+      router.push(`/rules#${encodeURIComponent(tag)}`);
+    }
   };
 
   return (
     <aside className="w-64 p-4 flex flex-col">
-      {/* Search input */}
-      {/* <FilterInput
-        onSearch={(term) =>
-          setSections(
-            allSections.filter((section) =>
-              section.tag.toLowerCase().includes(term),
-            ),
-          )
-        }
-        clearSearch={clearSearch}
-      /> */}
       <ScrollArea className="flex-grow">
         <div className="space-y-1">
           {sections.map((section) => (
