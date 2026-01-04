@@ -1,6 +1,17 @@
 import { GithubSignin } from "@/components/github-signin";
 import { GoogleSignin } from "@/components/google-signin";
+import type { Metadata } from "next";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Login",
+  description:
+    "Sign in to Sub-Agents Directory to access premium features and contribute to the community.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Login() {
   return (

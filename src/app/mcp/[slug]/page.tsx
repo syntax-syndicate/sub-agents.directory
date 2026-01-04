@@ -1,23 +1,51 @@
 import { HowTo } from "@/components/how-to";
 import mcpData from "@/data/mcp";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import slugify from "slugify";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const mcp = mcpData.find((item) => slugify(item.name, { lower: true }) === slug);
 
   if (!mcp) {
     return {
       title: "MCP Server Not Found",
+      robots: { index: false },
     };
   }
 
+  const title = `${mcp.name} MCP Server`;
+  const description =
+    mcp.description || `Install and configure ${mcp.name} MCP server for Claude Code.`;
+
   return {
-    title: `${mcp.name} - MCP Server | Sub-Agents Directory`,
-    description: mcp.description,
+    title,
+    description,
+    alternates: {
+      canonical: `/mcp/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `/mcp/${slug}`,
+      type: "website",
+      images: mcp.logo
+        ? [{ url: mcp.logo, alt: `${mcp.name} logo` }]
+        : [{ url: "/cover-image.png", width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: mcp.logo ? [mcp.logo] : ["/cover-image.png"],
+    },
   };
 }
 

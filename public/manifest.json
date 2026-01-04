@@ -1,0 +1,19 @@
+{
+  "name": "Sub-Agents Directory",
+  "short_name": "SubAgents",
+  "description": "Find the best Claude Code sub-agent prompts for your framework and language",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/claude-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["developer tools", "productivity"],
+  "orientation": "portrait-primary"
+}

@@ -1,7 +1,30 @@
 import { Menu } from "@/components/menu";
 import { RuleList } from "@/components/rule-list";
 import { getSections } from "@/data/rules";
+import type { Metadata } from "next";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Browse All Sub-Agents",
+  description:
+    "Browse all Claude Code sub-agent prompts organized by category. Find agents for frontend, backend, DevOps, testing, and more.",
+  alternates: {
+    canonical: "/agents",
+  },
+  openGraph: {
+    title: "Browse All Sub-Agents",
+    description:
+      "Browse all Claude Code sub-agent prompts organized by category. Find agents for frontend, backend, DevOps, testing, and more.",
+    url: "/agents",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Browse All Sub-Agents",
+    description:
+      "Browse all Claude Code sub-agent prompts organized by category. Find agents for frontend, backend, DevOps, testing, and more.",
+  },
+};
 
 export default function Page() {
   const sections = getSections();

@@ -37,6 +37,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       description,
       url: `${BASE_URL}/${slug}`,
       type: "article",
+      publishedTime: "2024-01-01T00:00:00Z",
+      modifiedTime: new Date().toISOString(),
+      authors: ["Sub-Agents Directory"],
       images: [
         {
           url: `${BASE_URL}/cover-image.png`,

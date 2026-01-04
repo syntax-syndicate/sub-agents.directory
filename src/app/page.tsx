@@ -1,5 +1,5 @@
 import { GlobalSearch } from "@/components/global-search";
-import { WebSiteJsonLd } from "@/components/json-ld";
+import { OrganizationJsonLd, WebSiteJsonLd } from "@/components/json-ld";
 import { getSections } from "@/data/rules";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -7,6 +7,9 @@ import Image from "next/image";
 export const metadata: Metadata = {
   title: "Sub-Agents Directory - Claude Code Sub-Agents & MCP Servers",
   description: "Discover Claude Code sub-agent prompts, find MCP servers, and join the community.",
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function Page() {
@@ -15,6 +18,7 @@ export default function Page() {
   return (
     <>
       <WebSiteJsonLd />
+      <OrganizationJsonLd />
       <div className="min-h-screen w-full px-4 pt-[10%]">
         <div className="w-full max-w-6xl mx-auto">
           <div className="flex justify-center mb-6">

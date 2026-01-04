@@ -20,8 +20,27 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Sub-Agents Directory",
+  metadataBase: new URL("https://sub-agents.directory"),
+  title: {
+    default: "Sub-Agents Directory",
+    template: "%s | Sub-Agents Directory",
+  },
   description: "Find the best Claude Code sub-agent prompts for your framework and language",
+  keywords: ["Claude Code", "sub-agents", "MCP servers", "AI prompts", "Anthropic", "Claude"],
+  authors: [{ name: "Sub-Agents Directory" }],
+  creator: "Sub-Agents Directory",
+  publisher: "Sub-Agents Directory",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: [
     {
       rel: "icon",
@@ -29,15 +48,17 @@ export const metadata: Metadata = {
       type: "image/svg+xml",
     },
   ],
+  manifest: "/manifest.json",
   openGraph: {
     title: "Sub-Agents Directory",
     description: "Find the best Claude Code sub-agent prompts for your framework and language",
     url: "https://sub-agents.directory",
+    siteName: "Sub-Agents Directory",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: "https://sub-agents.directory/cover-image.png",
+        url: "/cover-image.png",
         width: 1200,
         height: 630,
         alt: "Sub-Agents Directory - Find the best Claude Code sub-agent prompts",
@@ -48,7 +69,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Sub-Agents Directory",
     description: "Find the best Claude Code sub-agent prompts for your framework and language",
-    images: ["https://sub-agents.directory/cover-image.png"],
+    images: ["/cover-image.png"],
   },
 };
 
