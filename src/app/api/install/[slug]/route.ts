@@ -3,6 +3,11 @@ import { rules } from "@/data/rules";
 export const dynamic = "force-static";
 export const revalidate = 86400;
 
+const BASE_URL =
+  process.env.NEXT_PUBLIC_APP_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "https://sub-agents.directory");
 const VALID_SLUG_PATTERN = /^[a-z0-9-]+$/;
 
 function sanitizeForBash(str: string): string {
@@ -17,7 +22,7 @@ export async function generateStaticParams() {
 
 type Params = Promise<{ slug: string }>;
 
-export async function GET(request: Request, segmentData: { params: Params }) {
+export async function GET(_request: Request, segmentData: { params: Params }) {
   const { slug } = await segmentData.params;
 
   if (!slug) {
@@ -34,15 +39,12 @@ export async function GET(request: Request, segmentData: { params: Params }) {
     return new Response("Rule not found", { status: 404 });
   }
 
-  const url = new URL(request.url);
-  const baseUrl = `${url.protocol}//${url.host}`;
-
   const script = `#!/bin/bash
 set -e
 
 AGENT_DIR="$HOME/.claude/agents"
 AGENT_NAME="${slug}"
-AGENT_URL="${baseUrl}/api/download/${slug}"
+AGENT_URL="${BASE_URL}/api/download/${slug}"
 TEMP_FILE=""
 
 # Cleanup function to remove temp file on failure
