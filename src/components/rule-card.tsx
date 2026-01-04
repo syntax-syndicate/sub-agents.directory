@@ -6,6 +6,7 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { CopyButton } from "./copy-button";
 import { DownloadButton } from "./download-button";
+import { InstallButton } from "./install-button";
 import { OpenInDropdown } from "./open-in-dropdown";
 import { ShareButton } from "./share-button";
 
@@ -19,6 +20,7 @@ export function RuleCard({ rule, isPage }: { rule: Rule; isPage?: boolean }) {
         )}
       >
         <div className="group-hover:flex hidden right-4 bottom-4 absolute z-10 space-x-2">
+          <InstallButton slug={rule.slug} />
           <OpenInDropdown content={rule.content} />
           <ShareButton slug={rule.slug} />
           <CopyButton content={rule.content} />

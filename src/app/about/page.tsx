@@ -47,7 +47,7 @@ export default function About() {
             This project is open source and welcomes contributions from the community. If you have a
             prompt that's been working well for you, consider{" "}
             <a
-              href="https://github.com/ayush-that/sub-agents.directory"
+              href="https://github.com/ayush-that/sub-agents.directory?tab=readme-ov-file#contributing"
               className="text-primary border-border border-dashed border-b-[1px]"
             >
               submitting it

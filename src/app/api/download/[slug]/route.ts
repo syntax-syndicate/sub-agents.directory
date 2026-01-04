@@ -5,15 +5,14 @@ import { rules } from "@/data/rules";
 export const dynamic = "force-static";
 export const revalidate = 86400;
 
+const VALID_SLUG_PATTERN = /^[a-z0-9-]+$/;
+
 export async function generateStaticParams() {
   return rules.map((rule) => ({
     slug: rule.slug,
   }));
 }
 
-/**
- * Find markdown file by slug across all category folders
- */
 function findMarkdownFile(slug: string): string | null {
   const categoriesDir = path.join(process.cwd(), "content");
 
@@ -41,6 +40,10 @@ export async function GET(_: Request, segmentData: { params: Params }) {
 
   if (!slug) {
     return new Response("No slug provided", { status: 400 });
+  }
+
+  if (!VALID_SLUG_PATTERN.test(slug)) {
+    return new Response("Invalid slug format", { status: 400 });
   }
 
   const filePath = findMarkdownFile(slug);
