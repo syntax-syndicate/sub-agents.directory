@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/sub-agents.directory.png" alt="Sub-Agents Directory" />
+  <img src="public/cover-image.png" alt="Sub-Agents Directory" height="400" />
 </p>
 
 <h1 align="center">Sub-Agents Directory</h1>
