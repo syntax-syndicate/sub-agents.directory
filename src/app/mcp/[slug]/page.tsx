@@ -67,7 +67,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     <div className="min-h-screen mt-24 px-4">
       <div className="container px-4 py-8 max-w-2xl">
         <div className="flex items-center gap-4 mb-6">
-          {mcp.logo && <Image src={mcp.logo} alt={`${mcp.name} logo`} width={48} height={48} />}
+          {mcp.logo && (
+            <Image src={mcp.logo} alt={`${mcp.name} logo`} width={48} height={48} priority />
+          )}
           <h1 className="text-2xl">{mcp.name}</h1>
         </div>
         <p className="text-[#878787] mb-4">{mcp.description}</p>

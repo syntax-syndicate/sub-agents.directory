@@ -89,6 +89,7 @@ export default async function Page({ params }: { params: Params }) {
         </div>
 
         <main className="flex-1 p-6 pt-16">
+          <h1 className="sr-only">{rule.title} - Claude Code Sub-Agent</h1>
           <RuleCard rule={rule} isPage={true} />
         </main>
       </div>

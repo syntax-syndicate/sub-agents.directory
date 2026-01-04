@@ -123,7 +123,7 @@ export default function RootLayout({
           <Toaster />
         </ThemeProvider>
       </body>
-      <Script src="https://scripts.simpleanalyticscdn.com/latest.js" />
+      <Script src="https://scripts.simpleanalyticscdn.com/latest.js" strategy="lazyOnload" />
     </html>
   );
 }

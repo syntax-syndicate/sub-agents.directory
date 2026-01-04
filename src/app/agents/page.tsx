@@ -36,6 +36,7 @@ export default function Page() {
       </div>
 
       <main className="flex-1 p-6 pt-4 md:pt-16 space-y-8">
+        <h1 className="sr-only">Browse All Claude Code Sub-Agents</h1>
         <Suspense fallback={null}>
           <RuleList sections={sections} />
         </Suspense>
