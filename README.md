@@ -11,7 +11,7 @@
 <p align="center">
   <a href="#about">About</a> ·
   <a href="#getting-started">Getting Started</a> ·
-  <a href="#contributing">Contributing</a> ·
+  <a href="#contributing">Contributing</a>
 </p>
 
 ---
