@@ -15,7 +15,7 @@ export default function Page() {
     <div className="min-h-screen w-full px-4 pt-[10%]">
       <div className="w-full max-w-6xl mx-auto">
         <div className="flex justify-center mb-6">
-          <Image src="/Claude_AI_symbol.svg" alt="Claude AI" width={64} height={64} />
+          <Image src="/claude-logo.svg" alt="Claude AI" width={64} height={64} />
         </div>
         <GlobalSearch sections={sections} />
       </div>

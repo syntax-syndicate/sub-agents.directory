@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   icons: [
     {
       rel: "icon",
-      url: "/Claude_AI_symbol.svg",
+      url: "/claude-logo.svg",
       type: "image/svg+xml",
     },
   ],
