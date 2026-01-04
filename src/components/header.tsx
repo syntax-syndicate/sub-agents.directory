@@ -2,7 +2,7 @@
 
 import type { Rule } from "@/data/rules/types";
 import { cn } from "@/lib/utils";
-import { SearchIcon } from "lucide-react";
+import { Github, SearchIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -36,13 +36,22 @@ export function Header({ rules }: { rules: Rule[] }) {
               key={link.href}
               href={link.href}
               className={cn(
-                "flex items-center gap-2 text-sm font-medium",
-                pathname.includes(link.href) ? "text-primary" : "text-[#878787]",
+                "flex items-center gap-2 text-sm font-medium transition-colors",
+                pathname.includes(link.href) ? "text-primary" : "text-[#878787] hover:text-primary",
               )}
             >
               {link.label}
             </Link>
           ))}
+
+          <Link
+            href="https://github.com/ayush-that/sub-agents.directory"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#878787] hover:text-primary transition-colors"
+          >
+            <Github className="h-4 w-4" />
+          </Link>
 
           <Button
             variant="ghost"
