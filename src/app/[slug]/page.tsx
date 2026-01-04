@@ -1,7 +1,8 @@
 import { BreadcrumbJsonLd, RuleJsonLd } from "@/components/json-ld";
 import { Menu } from "@/components/menu";
+import { RelatedRules } from "@/components/related-rules";
 import { RuleCard } from "@/components/rule-card";
-import { getRuleBySlug, getSections, rules } from "@/data/rules";
+import { getRelatedRules, getRuleBySlug, getSections, rules } from "@/data/rules";
 import type { Metadata } from "next";
 
 const BASE_URL = "https://sub-agents.directory";
@@ -68,6 +69,7 @@ export default async function Page({ params }: { params: Params }) {
   const { slug } = await params;
   const rule = getRuleBySlug(slug);
   const sections = getSections();
+  const relatedRules = getRelatedRules(slug, 4);
 
   if (!rule) {
     return <div>Rule not found</div>;
@@ -88,9 +90,10 @@ export default async function Page({ params }: { params: Params }) {
           <Menu sections={sections} />
         </div>
 
-        <main className="flex-1 p-6 pt-16">
+        <main className="flex-1 p-6 pt-16 max-w-4xl">
           <h1 className="sr-only">{rule.title} - Claude Code Sub-Agent</h1>
           <RuleCard rule={rule} isPage={true} />
+          <RelatedRules rules={relatedRules} />
         </main>
       </div>
     </>

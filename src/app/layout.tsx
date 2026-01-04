@@ -98,6 +98,14 @@ export default function RootLayout({
         "whitespace-pre-line antialiased bg-background text-foreground !dark",
       )}
     >
+      <head>
+        {/* Preconnect to external resources for faster loading */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.youtube.com" />
+        <link rel="preconnect" href="https://i.ytimg.com" />
+        <link rel="dns-prefetch" href="https://scripts.simpleanalyticscdn.com" />
+      </head>
       <body>
         <ThemeProvider
           attribute="class"

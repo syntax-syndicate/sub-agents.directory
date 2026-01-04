@@ -175,3 +175,58 @@ export function McpServerJsonLd({ name, description, url, logo }: McpServerJsonL
     />
   );
 }
+
+interface Video {
+  title: string;
+  description: string;
+  url: string;
+  author: {
+    name: string;
+    image: string;
+  };
+}
+
+interface VideoListJsonLdProps {
+  videos: Video[];
+}
+
+export function VideoListJsonLd({ videos }: VideoListJsonLdProps) {
+  const extractVideoId = (embedUrl: string): string | null => {
+    const match = embedUrl.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
+    return match ? match[1] : null;
+  };
+
+  const videoObjects = videos.map((video, index) => {
+    const videoId = extractVideoId(video.url);
+    return {
+      "@type": "VideoObject",
+      position: index + 1,
+      name: video.title,
+      description: video.description,
+      thumbnailUrl: videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : undefined,
+      contentUrl: video.url.replace("/embed/", "/watch?v="),
+      embedUrl: video.url,
+      uploadDate: "2024-01-01T00:00:00Z",
+      publisher: {
+        "@type": "Person",
+        name: video.author.name,
+        image: video.author.image,
+      },
+    };
+  });
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Claude Code Tutorial Videos",
+    description: "Learn how to use Claude Code from videos and tutorials",
+    itemListElement: videoObjects,
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
