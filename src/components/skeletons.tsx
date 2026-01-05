@@ -8,17 +8,6 @@ export function Skeleton({ className }: SkeletonProps) {
   return <div className={cn("animate-pulse rounded-md bg-muted", className)} />;
 }
 
-export function SearchInputSkeleton() {
-  return (
-    <div className="h-[60px] bg-[#121212] border border-[#2C2C2C] rounded-full flex items-center px-5">
-      <div className="flex items-center gap-3 w-full">
-        <Skeleton className="w-5 h-5 rounded-full" />
-        <Skeleton className="h-4 w-48" />
-      </div>
-    </div>
-  );
-}
-
 export function RuleCardSkeleton() {
   return (
     <div className="bg-[#121212] border border-[#1C1C1C] rounded-lg p-4 space-y-3">

@@ -7,8 +7,6 @@ import { GlobalSearchInput } from "./global-search-input";
 import { HeroTitle } from "./hero-title";
 import MCPList from "./mcp-list";
 import { RuleList } from "./rule-list";
-import { SearchInputSkeleton } from "./skeletons";
-
 export function GlobalSearch({ sections }: { sections: Section[] }) {
   return (
     <div className="w-full">
@@ -17,7 +15,7 @@ export function GlobalSearch({ sections }: { sections: Section[] }) {
           <HeroTitle />
 
           <div className="max-w-[620px] mx-auto w-full mb-14">
-            <Suspense fallback={<SearchInputSkeleton />}>
+            <Suspense fallback={null}>
               <GlobalSearchInput />
             </Suspense>
           </div>
