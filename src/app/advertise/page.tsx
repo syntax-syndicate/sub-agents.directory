@@ -41,9 +41,9 @@ export default function Advertise() {
             <h2 className="text-xl mb-2">Advertising Options</h2>
             <p className="text-[#878787] leading-relaxed text-sm">
               We offer various advertising opportunities including:
-              <br />• Grid Ad - $99/month (in-grid card placement)
-              <br />• Banner Ad - $149/month (fixed bottom-right banner)
-              <br />• Premium Bundle - $199/month (grid + banner)
+              <br />• Grid Ad - $10/month (in-grid card placement)
+              <br />• Banner Ad - $15/month (fixed bottom-right banner)
+              <br />• Premium Bundle - $20/month (grid + banner)
             </p>
 
             <p className="text-primary mt-6 text-sm w-full">
