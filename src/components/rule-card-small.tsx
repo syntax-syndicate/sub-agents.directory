@@ -4,11 +4,12 @@ import { cn } from "@/lib/utils";
 import type { Rule } from "@/data/rules/types";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
+import { memo } from "react";
 import { CopyButton } from "./copy-button";
 import { DownloadButton } from "./download-button";
 import { ShareButton } from "./share-button";
 
-export function RuleCardSmall({
+export const RuleCardSmall = memo(function RuleCardSmall({
   rule,
   isPage,
   small,
@@ -98,4 +99,4 @@ export function RuleCardSmall({
       </CardHeader>
     </Card>
   );
-}
+});
