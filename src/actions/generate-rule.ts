@@ -113,10 +113,20 @@ function detectTechnologies(content: string): string[] {
   if (lowerContent.includes("next") || lowerContent.includes('"next"')) {
     technologies.push("nextjs");
   }
-  if (lowerContent.includes("python") || lowerContent.includes("requirements.txt") || lowerContent.includes("django") || lowerContent.includes("flask") || lowerContent.includes("fastapi")) {
+  if (
+    lowerContent.includes("python") ||
+    lowerContent.includes("requirements.txt") ||
+    lowerContent.includes("django") ||
+    lowerContent.includes("flask") ||
+    lowerContent.includes("fastapi")
+  ) {
     technologies.push("python");
   }
-  if (lowerContent.includes("node") || lowerContent.includes("express") || lowerContent.includes("fastify")) {
+  if (
+    lowerContent.includes("node") ||
+    lowerContent.includes("express") ||
+    lowerContent.includes("fastify")
+  ) {
     technologies.push("nodejs");
   }
 
@@ -156,13 +166,15 @@ async function* streamMockResponse(input: string): AsyncGenerator<string> {
 
   for (let i = 0; i < words.length; i++) {
     yield words[i] + (i < words.length - 1 ? " " : "");
-    await new Promise(resolve => setTimeout(resolve, 20 + Math.random() * 30));
+    await new Promise((resolve) => setTimeout(resolve, 20 + Math.random() * 30));
   }
 }
 
 export async function generateRule(input: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     throw new Error("You must be logged in to generate rules");
@@ -175,6 +187,8 @@ export async function generateRule(input: string) {
 
 export async function getSession() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return { user };
 }

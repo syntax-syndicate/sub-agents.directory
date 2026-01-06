@@ -58,7 +58,7 @@ export function Generate() {
       <div
         className={cn(
           "w-full max-w-2xl transition-all duration-500",
-          hasResult && "opacity-0 blur-sm pointer-events-none absolute"
+          hasResult && "opacity-0 blur-sm pointer-events-none absolute",
         )}
       >
         <GenerateTitle />
@@ -71,9 +71,7 @@ export function Generate() {
         <GenerateList />
       </div>
 
-      {hasResult && (
-        <GeneratedResults result={result} onNew={handleReset} />
-      )}
+      {hasResult && <GeneratedResults result={result} onNew={handleReset} />}
 
       {error && !hasResult && (
         <div className="mt-4 p-4 border border-red-500/20 bg-red-500/10 rounded-lg text-sm text-red-500">

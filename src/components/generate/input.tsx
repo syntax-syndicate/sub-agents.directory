@@ -43,7 +43,8 @@ export function GenerateInput({ value, setValue, onSubmit, isLoading }: Generate
       if (file) {
         const validFiles = ["package.json", "requirements.txt", ".cursorrules", "CLAUDE.md"];
         const isValid = validFiles.some(
-          (valid) => file.name === valid || file.name.endsWith(".txt") || file.name.endsWith(".json")
+          (valid) =>
+            file.name === valid || file.name.endsWith(".txt") || file.name.endsWith(".json"),
         );
 
         if (isValid) {
@@ -57,7 +58,7 @@ export function GenerateInput({ value, setValue, onSubmit, isLoading }: Generate
         }
       }
     },
-    [setValue, onSubmit]
+    [setValue, onSubmit],
   );
 
   const handleKeyDown = useCallback(
@@ -69,7 +70,7 @@ export function GenerateInput({ value, setValue, onSubmit, isLoading }: Generate
         }
       }
     },
-    [value, isLoading, onSubmit]
+    [value, isLoading, onSubmit],
   );
 
   return (
@@ -78,7 +79,7 @@ export function GenerateInput({ value, setValue, onSubmit, isLoading }: Generate
         className={cn(
           "relative border border-border rounded-lg transition-all duration-200",
           isDragging && "border-primary bg-primary/5",
-          isAuth === false && "blur-[2px] pointer-events-none select-none"
+          isAuth === false && "blur-[2px] pointer-events-none select-none",
         )}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -93,14 +94,12 @@ export function GenerateInput({ value, setValue, onSubmit, isLoading }: Generate
           className={cn(
             "w-full min-h-[200px] p-4 bg-transparent resize-none focus:outline-none",
             "text-sm font-mono text-foreground placeholder:text-muted-foreground",
-            isLoading && "opacity-50 cursor-not-allowed"
+            isLoading && "opacity-50 cursor-not-allowed",
           )}
         />
 
         <div className="flex items-center justify-between px-4 py-3 border-t border-border">
-          <p className="text-xs text-muted-foreground">
-            Drop a file or press Enter to generate
-          </p>
+          <p className="text-xs text-muted-foreground">Drop a file or press Enter to generate</p>
           <button
             type="button"
             onClick={() => onSubmit()}
@@ -108,7 +107,7 @@ export function GenerateInput({ value, setValue, onSubmit, isLoading }: Generate
             className={cn(
               "px-4 py-2 text-sm font-medium rounded-full transition-all",
               "bg-foreground text-background hover:opacity-90",
-              "disabled:opacity-50 disabled:cursor-not-allowed"
+              "disabled:opacity-50 disabled:cursor-not-allowed",
             )}
           >
             {isLoading ? "Generating..." : "Generate"}
@@ -119,7 +118,9 @@ export function GenerateInput({ value, setValue, onSubmit, isLoading }: Generate
       {isAuth === false && (
         <div className="absolute inset-0 flex items-center justify-center bg-background/80 rounded-lg">
           <div className="text-center">
-            <p className="text-sm text-muted-foreground mb-3">Sign in to generate sub-agent prompts</p>
+            <p className="text-sm text-muted-foreground mb-3">
+              Sign in to generate sub-agent prompts
+            </p>
             <Link
               href="/login"
               className="px-6 py-2 text-sm font-medium rounded-full bg-foreground text-background hover:opacity-90 transition-opacity"
