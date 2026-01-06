@@ -7,9 +7,38 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id          String              @id @db.Uuid
+  email       String?
+  name        String?
+  username    String              @unique
+  avatarUrl   String?             @map("avatar_url")
+  createdAt   DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime            @updatedAt @map("updated_at") @db.Timestamptz
+  generations Generation[]
+  rateLimits  GenerateRateLimit[]
+
+  @@map("users")
+}
+
+model Generation {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug      String   @unique
+  userId    String   @map("user_id") @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  input     String
+  content   String
+  title     String?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("generations")
+}
+
 model GenerateRateLimit {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId    String   @map("user_id") @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
 
   @@index([userId, createdAt(sort: Desc)])

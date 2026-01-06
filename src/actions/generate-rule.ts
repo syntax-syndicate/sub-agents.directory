@@ -1,8 +1,9 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
-import { checkRateLimit, RateLimitError } from "@/lib/rate-limit";
+import { ensureUserExists } from "@/actions/user";
 import { getModel, SYSTEM_PROMPT } from "@/lib/ai";
+import { checkRateLimit, RateLimitError } from "@/lib/rate-limit";
+import { createClient } from "@/utils/supabase/server";
 import { streamText } from "ai";
 
 export async function generateRule(input: string) {
@@ -14,6 +15,8 @@ export async function generateRule(input: string) {
   if (!user) {
     throw new Error("You must be logged in to generate rules");
   }
+
+  await ensureUserExists();
 
   const rateLimitResult = await checkRateLimit(user.id);
   if (!rateLimitResult.success) {

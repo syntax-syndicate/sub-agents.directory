@@ -24,19 +24,22 @@ export function GenerateInput({
 }: GenerateInputProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [isAuth, setIsAuth] = useState<boolean | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(null);
 
   useEffect(() => {
     const supabase = createClient();
 
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setIsAuth(!!user);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuth(!!session?.user);
+      setAuthChecked(true);
     });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuth(!!session?.user);
+      setAuthChecked(true);
     });
 
     return () => {
@@ -120,7 +123,7 @@ export function GenerateInput({
         className={cn(
           "relative border border-border rounded-lg transition-all duration-200",
           isDragging && "border-primary bg-primary/5",
-          isAuth === false && "blur-[2px] pointer-events-none select-none",
+          authChecked && isAuth === false && "blur-[2px] pointer-events-none select-none",
         )}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -131,7 +134,7 @@ export function GenerateInput({
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          disabled={isLoading || isAuth === false}
+          disabled={isLoading || (authChecked && isAuth === false)}
           className={cn(
             "w-full min-h-[200px] p-4 bg-transparent resize-none focus:outline-none",
             "text-sm font-mono text-foreground placeholder:text-muted-foreground",
@@ -144,7 +147,9 @@ export function GenerateInput({
           <button
             type="button"
             onClick={() => onSubmit()}
-            disabled={!value.trim() || isLoading || isAuth === false || countdown !== null}
+            disabled={
+              !value.trim() || isLoading || (authChecked && isAuth === false) || countdown !== null
+            }
             className={cn(
               "px-4 py-2 text-sm font-medium rounded-full transition-all",
               "bg-foreground text-background hover:opacity-90",
@@ -156,7 +161,7 @@ export function GenerateInput({
         </div>
       </div>
 
-      {isAuth === false && (
+      {authChecked && isAuth === false && (
         <div className="absolute inset-0 flex items-center justify-center bg-background/80 rounded-lg">
           <div className="text-center">
             <p className="text-sm text-muted-foreground mb-3">

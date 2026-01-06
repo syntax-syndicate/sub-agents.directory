@@ -2,21 +2,31 @@
 
 import type { Rule } from "@/data/rules/types";
 import { cn } from "@/lib/utils";
-import { Github, SearchIcon } from "lucide-react";
+import { ChevronDown, Github, SearchIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { CommandMenu } from "./command-menu";
 import { MobileMenu } from "./mobile-menu";
 import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 import { UserMenu } from "./user-menu";
 
-const navigationLinks = [
+const primaryLinks = [
   { href: "/agents", label: "Agents" },
   { href: "/mcp", label: "MCPs" },
   { href: "/generate", label: "Generate" },
+] as const;
+
+const moreLinks = [
   { href: "/learn", label: "Learn" },
   { href: "/about", label: "About" },
+  { href: "/advertise", label: "Advertise" },
 ] as const;
 
 export function Header({ rules }: { rules: Rule[] }) {
@@ -31,7 +41,7 @@ export function Header({ rules }: { rules: Rule[] }) {
         </Link>
 
         <div className="hidden md:flex items-center gap-5">
-          {navigationLinks.map((link) => (
+          {primaryLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -43,6 +53,39 @@ export function Header({ rules }: { rules: Rule[] }) {
               {link.label}
             </Link>
           ))}
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "gap-1.5 px-0 text-sm font-medium hover:bg-transparent",
+                  moreLinks.some((link) => pathname.includes(link.href))
+                    ? "text-primary"
+                    : "text-[#878787] hover:text-primary",
+                )}
+              >
+                More
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {moreLinks.map((link) => (
+                <DropdownMenuItem key={link.href} asChild>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      "w-full cursor-pointer",
+                      pathname.includes(link.href) && "text-primary",
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           <Link
             href="https://github.com/ayush-that/sub-agents.directory"

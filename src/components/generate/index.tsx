@@ -17,9 +17,12 @@ export function Generate() {
   const [error, setError] = useState<string | null>(null);
   const [rateLimitReset, setRateLimitReset] = useState<number | null>(null);
 
+  const [generatedInput, setGeneratedInput] = useState("");
+
   const handleGenerate = async (fileContent?: string) => {
     const input = fileContent || value;
     if (!input.trim()) return;
+    setGeneratedInput(input);
 
     setIsLoading(true);
     setResult("");
@@ -80,7 +83,7 @@ export function Generate() {
         <GenerateList />
       </div>
 
-      {hasResult && <GeneratedResults result={result} onNew={handleReset} />}
+      {hasResult && <GeneratedResults result={result} input={generatedInput} onNew={handleReset} />}
 
       {error && !hasResult && (
         <div className="mt-4 p-4 border border-red-500/20 bg-red-500/10 rounded-lg text-sm text-red-500">

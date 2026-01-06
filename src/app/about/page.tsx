@@ -55,6 +55,35 @@ export default function About() {
             to help other developers.
           </p>
         </section>
+
+        <section>
+          <h2 className="text-xl mb-2">Credits</h2>
+          <p className="text-[#878787] leading-relaxed text-sm mb-4">
+            We're grateful to the following MIT licensed projects that made this possible:
+          </p>
+          <ul className="space-y-3 text-sm text-[#878787]">
+            <li>
+              <a
+                href="https://github.com/pontusab/directories"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary border-border border-dashed border-b-[1px]"
+              >
+                pontusab/directories
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://github.com/VoltAgent/awesome-claude-code-subagents"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary border-border border-dashed border-b-[1px]"
+              >
+                VoltAgent/awesome-claude-code-subagents
+              </a>
+            </li>
+          </ul>
+        </section>
       </div>
     </div>
   );

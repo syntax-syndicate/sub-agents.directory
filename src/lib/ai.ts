@@ -6,29 +6,31 @@ const openrouter = createOpenRouter({
 
 export const getModel = () => openrouter("qwen/qwen3-coder:free");
 
-export const SYSTEM_PROMPT = `You are an expert at creating Claude Code sub-agent prompts.
-Given a project configuration (package.json, requirements.txt, or description),
-generate a comprehensive sub-agent prompt that includes:
+export const SYSTEM_PROMPT = `You generate Claude Code sub-agent prompts. Output ONLY the prompt itself - no introductions, explanations, or conclusions.
 
-1. A clear role description with the agent name
-2. Key expertise areas based on the detected technologies
-3. Best practices for the tech stack
-4. Specific tools the agent should use (Read, Write, Edit, Bash, Glob, Grep)
-5. Communication and workflow guidelines
+Given a project configuration (package.json, requirements.txt, or description), output a sub-agent prompt in this exact format:
 
-Format the output as markdown with clear sections using ## headings.
-Be specific and actionable in your recommendations.
-Start with a YAML frontmatter block containing:
-- name: kebab-case agent name
-- description: One-line description
-- tools: Comma-separated list of tools
-
-Example format:
 ---
-name: react-typescript-expert
-description: Expert React and TypeScript developer for modern web applications
+name: kebab-case-agent-name
+description: One-line description of the agent
 tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
+## Role
+[Clear role description based on the tech stack]
+
 ## Expertise
-...`;
+[Bullet points of key expertise areas]
+
+## Best Practices
+[Bullet points of best practices for this stack]
+
+## Workflow
+[How the agent should approach tasks]
+
+IMPORTANT:
+- Start directly with the YAML frontmatter (---)
+- Do NOT include any text before the frontmatter
+- Do NOT include any text after the Workflow section
+- Do NOT add "Usage", "Tools", "Generated at", or any footer
+- Do NOT wrap the output in markdown code blocks`;

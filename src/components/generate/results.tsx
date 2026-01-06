@@ -1,19 +1,23 @@
 "use client";
 
+import { saveGeneration } from "@/actions/save-generation";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { Check, Copy, RefreshCw, Share2 } from "lucide-react";
+import { Check, Copy, RefreshCw, Save, Share2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 interface GeneratedResultsProps {
   result: string;
+  input: string;
   onNew: () => void;
 }
 
-export function GeneratedResults({ result, onNew }: GeneratedResultsProps) {
+export function GeneratedResults({ result, input, onNew }: GeneratedResultsProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
+  const [savedSlug, setSavedSlug] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -32,12 +36,60 @@ export function GeneratedResults({ result, onNew }: GeneratedResultsProps) {
     }
   };
 
-  const handleShare = () => {
+  const handleSave = async () => {
+    if (isSaving || savedSlug) return;
+
+    setIsSaving(true);
+    try {
+      const { slug } = await saveGeneration(input, result);
+      setSavedSlug(slug);
+      toast.success("Saved! Your prompt is now shareable.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to save";
+      toast.error(message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleShare = async () => {
+    let slug = savedSlug;
+
+    if (!slug) {
+      setIsSaving(true);
+      try {
+        const res = await saveGeneration(input, result);
+        slug = res.slug;
+        setSavedSlug(slug);
+        toast.success("Saved! Sharing your prompt...");
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Failed to save";
+        toast.error(message);
+        setIsSaving(false);
+        return;
+      }
+      setIsSaving(false);
+    }
+
+    const shareUrl = `https://sub-agents.directory/g/${slug}`;
     const text = encodeURIComponent(
       "Check out this sub-agent prompt I generated on Sub-Agents Directory!",
     );
-    const url = encodeURIComponent("https://sub-agents.directory/generate");
+    const url = encodeURIComponent(shareUrl);
     window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, "_blank");
+  };
+
+  const handleCopyLink = async () => {
+    if (!savedSlug) {
+      toast.error("Save the prompt first to get a shareable link");
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(`https://sub-agents.directory/g/${savedSlug}`);
+      toast.success("Link copied to clipboard!");
+    } catch {
+      toast.error("Failed to copy link");
+    }
   };
 
   return (
@@ -45,35 +97,33 @@ export function GeneratedResults({ result, onNew }: GeneratedResultsProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="w-full max-w-3xl mx-auto"
+      className="w-full max-w-4xl mx-auto"
     >
-      <div className="border border-dashed border-border rounded-t-lg p-4 bg-card/30">
+      <div className="border border-border p-4 bg-card">
         <div className="flex items-center justify-between">
           <span className="text-sm font-medium">Generated Sub-Agent Prompt</span>
-          <span className="text-xs text-muted-foreground">{new Date().toLocaleString()}</span>
+          <div className="flex items-center gap-2">
+            {savedSlug && (
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+              >
+                /g/{savedSlug}
+              </button>
+            )}
+            <span className="text-xs text-muted-foreground">{new Date().toLocaleString()}</span>
+          </div>
         </div>
       </div>
 
       <div
         ref={scrollRef}
-        className="border border-t-0 border-border bg-[#0D0D0D] p-6 max-h-[60vh] overflow-y-auto"
+        className="border border-t-0 border-border bg-[#0D0D0D] p-6 max-h-[50vh] overflow-y-auto custom-scrollbar"
       >
-        <pre className="text-sm font-mono text-foreground whitespace-pre-wrap break-words">
+        <pre className="text-sm font-mono text-foreground whitespace-pre-wrap break-words leading-relaxed">
           {result}
         </pre>
-      </div>
-
-      <div className="flex border-x border-border">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div
-            key={i}
-            className="flex-1 h-3 border-b border-border"
-            style={{
-              clipPath: "polygon(0 0, 50% 100%, 100% 0)",
-              background: i % 2 === 0 ? "transparent" : "var(--card)",
-            }}
-          />
-        ))}
       </div>
 
       <motion.div
@@ -92,6 +142,20 @@ export function GeneratedResults({ result, onNew }: GeneratedResultsProps) {
         >
           {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
           {copied ? "Copied!" : "Copy"}
+        </button>
+
+        <button
+          type="button"
+          onClick={handleSave}
+          disabled={isSaving || !!savedSlug}
+          className={cn(
+            "flex items-center gap-2 px-4 py-2 text-sm rounded-full border border-border",
+            "hover:bg-card transition-colors",
+            savedSlug && "border-green-500/50 text-green-500",
+          )}
+        >
+          {savedSlug ? <Check className="w-4 h-4 text-green-500" /> : <Save className="w-4 h-4" />}
+          {isSaving ? "Saving..." : savedSlug ? "Saved" : "Save"}
         </button>
 
         <button
