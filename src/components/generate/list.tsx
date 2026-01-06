@@ -46,6 +46,13 @@ const expertise = [
 ];
 
 export function GenerateList() {
+  // Calculate animation distance based on content
+  // Each item: min-w-[200px] + gap-4 (16px) = 216px per item
+  // 10 items per set = 2160px for one complete set
+  const itemWidth = 200 + 16; // min-width + gap
+  const itemCount = expertise.length;
+  const animationDistance = -(itemWidth * itemCount);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -61,7 +68,7 @@ export function GenerateList() {
       <motion.div
         className="flex gap-4 py-2"
         animate={{
-          x: [0, -1920],
+          x: [0, animationDistance],
         }}
         transition={{
           duration: 70,
