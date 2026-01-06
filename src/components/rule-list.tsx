@@ -17,7 +17,11 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
   const [search] = useQueryState("q");
   const [visibleItems, setVisibleItems] = useState(ITEMS_PER_PAGE);
   const [isMounted, setIsMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const visibleItemsRef = useRef(visibleItems);
+  const isLoadingRef = useRef(false);
 
   const randomAds = useMemo(() => {
     const adsMap: Record<string, (typeof ads)[0]> = {};
@@ -30,42 +34,6 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
     });
     return adsMap;
   }, [sections]);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  useEffect(() => {
-    setVisibleItems(ITEMS_PER_PAGE);
-  }, [search]);
-
-  useEffect(() => {
-    const scrollToHash = () => {
-      const hash = decodeURIComponent(window.location.hash.slice(1));
-      if (!hash) return;
-
-      const sectionIndex = sections.findIndex((s) => s.slug === hash);
-      if (sectionIndex === -1) return;
-
-      if (sectionIndex >= visibleItems) {
-        setVisibleItems(sectionIndex + 1);
-      }
-
-      setTimeout(() => {
-        const element = document.getElementById(hash);
-        if (element) {
-          window.scrollTo({
-            top: element.offsetTop - 56,
-            behavior: "smooth",
-          });
-        }
-      }, 100);
-    };
-
-    scrollToHash();
-    window.addEventListener("hashchange", scrollToHash);
-    return () => window.removeEventListener("hashchange", scrollToHash);
-  }, [sections, visibleItems]);
 
   const filteredSections = useMemo(() => {
     const searchLower = search?.toLowerCase() || "";
@@ -82,21 +50,83 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
       .filter((section) => section.rules.length > 0);
   }, [sections, search]);
 
+  useEffect(() => {
+    visibleItemsRef.current = visibleItems;
+  }, [visibleItems]);
+
+  const filteredSectionsLengthRef = useRef(filteredSections.length);
+  useEffect(() => {
+    filteredSectionsLengthRef.current = filteredSections.length;
+  }, [filteredSections.length]);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    setVisibleItems(ITEMS_PER_PAGE);
+    visibleItemsRef.current = ITEMS_PER_PAGE;
+  }, [search]);
+
+  useEffect(() => {
+    const scrollToHash = () => {
+      const hash = decodeURIComponent(window.location.hash.slice(1));
+      if (!hash) return;
+
+      const sectionIndex = sections.findIndex((s) => s.slug === hash);
+      if (sectionIndex === -1) return;
+
+      if (sectionIndex >= visibleItemsRef.current) {
+        setVisibleItems(sectionIndex + 1);
+        visibleItemsRef.current = sectionIndex + 1;
+      }
+
+      setTimeout(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          window.scrollTo({
+            top: element.offsetTop - 56,
+            behavior: "smooth",
+          });
+        }
+      }, 100);
+    };
+
+    scrollToHash();
+    window.addEventListener("hashchange", scrollToHash);
+    return () => window.removeEventListener("hashchange", scrollToHash);
+  }, [sections]);
+
   const handleScroll = useCallback(() => {
     if (scrollTimeoutRef.current) {
       clearTimeout(scrollTimeoutRef.current);
     }
 
     scrollTimeoutRef.current = setTimeout(() => {
+      if (isLoadingRef.current) return;
+
       const bottom =
         Math.ceil(window.innerHeight + window.scrollY) >=
         document.documentElement.scrollHeight - 100;
 
-      if (bottom && visibleItems < filteredSections.length) {
-        setVisibleItems((prev) => Math.min(prev + ITEMS_PER_PAGE, filteredSections.length));
+      const currentVisible = visibleItemsRef.current;
+      const totalSections = filteredSectionsLengthRef.current;
+
+      if (bottom && currentVisible < totalSections) {
+        isLoadingRef.current = true;
+        setIsLoading(true);
+
+        const newVisible = Math.min(currentVisible + ITEMS_PER_PAGE, totalSections);
+        visibleItemsRef.current = newVisible;
+        setVisibleItems(newVisible);
+
+        setTimeout(() => {
+          isLoadingRef.current = false;
+          setIsLoading(false);
+        }, 100);
       }
     }, SCROLL_DEBOUNCE_MS);
-  }, [visibleItems, filteredSections.length]);
+  }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -180,12 +210,16 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
         <div className="flex justify-center mt-8">
           <button
             type="button"
-            onClick={() =>
-              setVisibleItems((prev) => Math.min(prev + ITEMS_PER_PAGE, filteredSections.length))
-            }
+            onClick={() => {
+              if (isLoading) return;
+              const newVisible = Math.min(visibleItems + ITEMS_PER_PAGE, filteredSections.length);
+              visibleItemsRef.current = newVisible;
+              setVisibleItems(newVisible);
+            }}
             className="px-4 py-2 text-sm text-muted-foreground"
+            disabled={isLoading}
           >
-            Loading more...
+            {isLoading ? "Loading..." : "Load more"}
           </button>
         </div>
       )}

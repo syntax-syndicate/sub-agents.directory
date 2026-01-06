@@ -4,13 +4,14 @@ import { cn } from "@/lib/utils";
 import type { Rule } from "@/data/rules/types";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
+import { memo } from "react";
 import { CopyButton } from "./copy-button";
 import { DownloadButton } from "./download-button";
 import { InstallButton } from "./install-button";
 import { OpenInDropdown } from "./open-in-dropdown";
 import { ShareButton } from "./share-button";
 
-export function RuleCard({ rule, isPage }: { rule: Rule; isPage?: boolean }) {
+export const RuleCard = memo(function RuleCard({ rule, isPage }: { rule: Rule; isPage?: boolean }) {
   return (
     <Card className="bg-background p-4 max-h-[calc(100vh-8rem)] aspect-square flex flex-col">
       <CardContent
@@ -63,4 +64,4 @@ export function RuleCard({ rule, isPage }: { rule: Rule; isPage?: boolean }) {
       </CardHeader>
     </Card>
   );
-}
+});

@@ -5,8 +5,9 @@ import type { Ad } from "@/data/ads";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { memo } from "react";
 
-export function AdCardSmall({ ad, small }: { ad: Ad; small?: boolean }) {
+export const AdCardSmall = memo(function AdCardSmall({ ad, small }: { ad: Ad; small?: boolean }) {
   return (
     <Card
       className={cn("bg-background max-h-[calc(100vh-8rem)] flex flex-col", small ? "p-2" : "p-4")}
@@ -44,4 +45,4 @@ export function AdCardSmall({ ad, small }: { ad: Ad; small?: boolean }) {
       </CardHeader>
     </Card>
   );
-}
+});
