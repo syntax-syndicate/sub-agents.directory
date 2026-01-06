@@ -20,7 +20,6 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
   const [isLoading, setIsLoading] = useState(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Use refs to track current values without causing re-renders
   const visibleItemsRef = useRef(visibleItems);
   const isLoadingRef = useRef(false);
 
@@ -51,12 +50,10 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
       .filter((section) => section.rules.length > 0);
   }, [sections, search]);
 
-  // Keep ref in sync with state
   useEffect(() => {
     visibleItemsRef.current = visibleItems;
   }, [visibleItems]);
 
-  // Keep filtered sections length in a ref
   const filteredSectionsLengthRef = useRef(filteredSections.length);
   useEffect(() => {
     filteredSectionsLengthRef.current = filteredSections.length;
@@ -71,7 +68,6 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
     visibleItemsRef.current = ITEMS_PER_PAGE;
   }, [search]);
 
-  // Hash navigation - separate from visibleItems dependency
   useEffect(() => {
     const scrollToHash = () => {
       const hash = decodeURIComponent(window.location.hash.slice(1));
@@ -80,7 +76,6 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
       const sectionIndex = sections.findIndex((s) => s.slug === hash);
       if (sectionIndex === -1) return;
 
-      // Use ref to check current visible items
       if (sectionIndex >= visibleItemsRef.current) {
         setVisibleItems(sectionIndex + 1);
         visibleItemsRef.current = sectionIndex + 1;
@@ -100,16 +95,14 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
     scrollToHash();
     window.addEventListener("hashchange", scrollToHash);
     return () => window.removeEventListener("hashchange", scrollToHash);
-  }, [sections]); // Removed visibleItems from dependencies
+  }, [sections]);
 
-  // Stable scroll handler that doesn't get recreated on state changes
   const handleScroll = useCallback(() => {
     if (scrollTimeoutRef.current) {
       clearTimeout(scrollTimeoutRef.current);
     }
 
     scrollTimeoutRef.current = setTimeout(() => {
-      // Prevent concurrent loads
       if (isLoadingRef.current) return;
 
       const bottom =
@@ -127,16 +120,14 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
         visibleItemsRef.current = newVisible;
         setVisibleItems(newVisible);
 
-        // Reset loading flag after a brief delay to allow render
         setTimeout(() => {
           isLoadingRef.current = false;
           setIsLoading(false);
         }, 100);
       }
     }, SCROLL_DEBOUNCE_MS);
-  }, []); // Empty dependencies - handler is stable
+  }, []);
 
-  // Single scroll listener that never gets re-attached
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {

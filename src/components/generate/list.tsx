@@ -46,10 +46,7 @@ const expertise = [
 ];
 
 export function GenerateList() {
-  // Calculate animation distance based on content
-  // Each item: min-w-[200px] + gap-4 (16px) = 216px per item
-  // 10 items per set = 2160px for one complete set
-  const itemWidth = 200 + 16; // min-width + gap
+  const itemWidth = 200 + 16;
   const itemCount = expertise.length;
   const animationDistance = -(itemWidth * itemCount);
 
@@ -60,11 +57,9 @@ export function GenerateList() {
       transition={{ duration: 0.6, delay: 0.2 }}
       className="relative mt-8 overflow-hidden"
     >
-      {/* Gradient overlays */}
       <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
-      {/* Scrolling content */}
       <motion.div
         className="flex gap-4 py-2"
         animate={{
@@ -76,7 +71,6 @@ export function GenerateList() {
           repeat: Infinity,
         }}
       >
-        {/* Duplicate items for seamless loop */}
         {[...expertise, ...expertise, ...expertise].map((item, index) => (
           <div
             key={`${item.name}-${index}`}

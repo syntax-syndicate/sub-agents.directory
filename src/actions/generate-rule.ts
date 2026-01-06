@@ -2,7 +2,6 @@
 
 import { createClient } from "@/utils/supabase/server";
 
-// Mock sub-agent templates for different technologies
 const mockTemplates: Record<string, string> = {
   react: `You are a React development expert specialized in building modern, performant React applications.
 
@@ -101,12 +100,10 @@ const mockTemplates: Record<string, string> = {
 - Document complex logic`,
 };
 
-// Detect technologies from package.json or requirements.txt
 function detectTechnologies(content: string): string[] {
   const technologies: string[] = [];
   const lowerContent = content.toLowerCase();
 
-  // Check for various technologies
   if (lowerContent.includes("react") || lowerContent.includes('"react"')) {
     technologies.push("react");
   }
@@ -126,7 +123,6 @@ function detectTechnologies(content: string): string[] {
   return technologies.length > 0 ? technologies : ["default"];
 }
 
-// Generate a mock rule based on detected technologies
 function generateMockRule(input: string): string {
   const technologies = detectTechnologies(input);
 
@@ -154,20 +150,17 @@ Generated at: ${new Date().toISOString()}`;
   return result;
 }
 
-// Simulate streaming by yielding chunks
 async function* streamMockResponse(input: string): AsyncGenerator<string> {
   const fullResponse = generateMockRule(input);
   const words = fullResponse.split(" ");
 
   for (let i = 0; i < words.length; i++) {
     yield words[i] + (i < words.length - 1 ? " " : "");
-    // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 20 + Math.random() * 30));
   }
 }
 
 export async function generateRule(input: string) {
-  // Check authentication
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -175,13 +168,11 @@ export async function generateRule(input: string) {
     throw new Error("You must be logged in to generate rules");
   }
 
-  // Return an async iterator that simulates streaming
   return {
     stream: streamMockResponse(input),
   };
 }
 
-// Helper to check if user is authenticated
 export async function getSession() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();

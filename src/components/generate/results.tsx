@@ -15,7 +15,6 @@ export function GeneratedResults({ result, onNew }: GeneratedResultsProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
 
-  // Auto-scroll to bottom as content streams in
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -46,7 +45,6 @@ export function GeneratedResults({ result, onNew }: GeneratedResultsProps) {
       transition={{ duration: 0.4 }}
       className="w-full max-w-3xl mx-auto"
     >
-      {/* Header */}
       <div className="border border-dashed border-border rounded-t-lg p-4 bg-card/30">
         <div className="flex items-center justify-between">
           <span className="text-sm font-medium">Generated Sub-Agent Prompt</span>
@@ -56,7 +54,6 @@ export function GeneratedResults({ result, onNew }: GeneratedResultsProps) {
         </div>
       </div>
 
-      {/* Content */}
       <div
         ref={scrollRef}
         className="border border-t-0 border-border bg-[#0D0D0D] p-6 max-h-[60vh] overflow-y-auto"
@@ -66,7 +63,6 @@ export function GeneratedResults({ result, onNew }: GeneratedResultsProps) {
         </pre>
       </div>
 
-      {/* Decorative footer */}
       <div className="flex border-x border-border">
         {Array.from({ length: 20 }).map((_, i) => (
           <div
@@ -80,7 +76,6 @@ export function GeneratedResults({ result, onNew }: GeneratedResultsProps) {
         ))}
       </div>
 
-      {/* Actions */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}

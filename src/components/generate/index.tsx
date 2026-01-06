@@ -55,7 +55,6 @@ export function Generate() {
 
   return (
     <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center px-4">
-      {/* Input section - hide when showing results */}
       <div
         className={cn(
           "w-full max-w-2xl transition-all duration-500",
@@ -72,12 +71,10 @@ export function Generate() {
         <GenerateList />
       </div>
 
-      {/* Results section */}
       {hasResult && (
         <GeneratedResults result={result} onNew={handleReset} />
       )}
 
-      {/* Error display */}
       {error && !hasResult && (
         <div className="mt-4 p-4 border border-red-500/20 bg-red-500/10 rounded-lg text-sm text-red-500">
           {error}
