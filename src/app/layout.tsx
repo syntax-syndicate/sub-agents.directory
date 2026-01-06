@@ -25,8 +25,18 @@ export const metadata: Metadata = {
     default: "Sub-Agents Directory",
     template: "%s | Sub-Agents Directory",
   },
-  description: "Find the best Claude Code sub-agent prompts for your framework and language",
-  keywords: ["Claude Code", "sub-agents", "MCP servers", "AI prompts", "Anthropic", "Claude"],
+  description:
+    "Browse 200+ Claude Code sub-agent prompts and MCP servers. Copy-paste ready prompts for React, Python, TypeScript, and more.",
+  keywords: [
+    "Claude Code",
+    "sub-agents",
+    "MCP servers",
+    "AI prompts",
+    "Anthropic",
+    "Claude",
+    "AI coding assistant",
+    "developer tools",
+  ],
   authors: [{ name: "Sub-Agents Directory" }],
   creator: "Sub-Agents Directory",
   publisher: "Sub-Agents Directory",
@@ -38,20 +48,22 @@ export const metadata: Metadata = {
       follow: true,
       "max-video-preview": -1,
       "max-image-preview": "large",
-      "max-snippet": -1,
+      "max-snippet": 160,
     },
   },
-  icons: [
-    {
-      rel: "icon",
-      url: "/claude-logo.png",
-      type: "image/png",
-    },
-  ],
+  icons: {
+    icon: [
+      { url: "/favicon.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   manifest: "/manifest.json",
   openGraph: {
-    title: "Sub-Agents Directory",
-    description: "Find the best Claude Code sub-agent prompts for your framework and language",
+    title: "Sub-Agents Directory - Claude Code Prompts & MCP Servers",
+    description:
+      "Browse 200+ Claude Code sub-agent prompts and MCP servers. Copy-paste ready prompts for React, Python, TypeScript, and more.",
     url: "https://sub-agents.directory",
     siteName: "Sub-Agents Directory",
     locale: "en_US",
@@ -61,14 +73,15 @@ export const metadata: Metadata = {
         url: "/cover-image.png",
         width: 1200,
         height: 630,
-        alt: "Sub-Agents Directory - Find the best Claude Code sub-agent prompts",
+        alt: "Sub-Agents Directory - Claude Code sub-agent prompts and MCP servers",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sub-Agents Directory",
-    description: "Find the best Claude Code sub-agent prompts for your framework and language",
+    title: "Sub-Agents Directory - Claude Code Prompts & MCP Servers",
+    description:
+      "Browse 200+ Claude Code sub-agent prompts and MCP servers. Copy-paste ready prompts for React, Python, TypeScript, and more.",
     images: ["/cover-image.png"],
   },
 };

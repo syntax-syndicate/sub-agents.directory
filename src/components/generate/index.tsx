@@ -13,8 +13,9 @@ export function Generate() {
   const [value, setValue] = useState("");
   const [result, setResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [finished, setFinished] = useState(false);
+  const [_finished, setFinished] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [rateLimitReset, setRateLimitReset] = useState<number | null>(null);
 
   const handleGenerate = async (fileContent?: string) => {
     const input = fileContent || value;
@@ -24,6 +25,7 @@ export function Generate() {
     setResult("");
     setError(null);
     setFinished(false);
+    setRateLimitReset(null);
 
     try {
       const { stream } = await generateRule(input);
@@ -37,6 +39,11 @@ export function Generate() {
       setFinished(true);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to generate rule";
+
+      if (message.toLowerCase().includes("rate limit")) {
+        setRateLimitReset(Date.now() + 60000);
+      }
+
       setError(message);
       toast.error(message);
     } finally {
@@ -49,6 +56,7 @@ export function Generate() {
     setResult("");
     setFinished(false);
     setError(null);
+    setRateLimitReset(null);
   };
 
   const hasResult = result.length > 0;
@@ -67,6 +75,7 @@ export function Generate() {
           setValue={setValue}
           onSubmit={handleGenerate}
           isLoading={isLoading}
+          rateLimitReset={rateLimitReset}
         />
         <GenerateList />
       </div>
@@ -76,6 +85,11 @@ export function Generate() {
       {error && !hasResult && (
         <div className="mt-4 p-4 border border-red-500/20 bg-red-500/10 rounded-lg text-sm text-red-500">
           {error}
+          {rateLimitReset && (
+            <p className="mt-2 text-xs">
+              Try again in {Math.ceil((rateLimitReset - Date.now()) / 1000)} seconds
+            </p>
+          )}
         </div>
       )}
     </div>

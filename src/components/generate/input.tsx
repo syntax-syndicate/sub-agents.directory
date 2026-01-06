@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { getSession } from "@/actions/generate-rule";
+import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
@@ -10,19 +10,60 @@ interface GenerateInputProps {
   setValue: (value: string) => void;
   onSubmit: (fileContent?: string) => void;
   isLoading: boolean;
+  rateLimitReset?: number | null;
 }
 
 const placeholder = "Paste your package.json, requirements.txt, or describe your project...";
 
-export function GenerateInput({ value, setValue, onSubmit, isLoading }: GenerateInputProps) {
+export function GenerateInput({
+  value,
+  setValue,
+  onSubmit,
+  isLoading,
+  rateLimitReset,
+}: GenerateInputProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [isAuth, setIsAuth] = useState<boolean | null>(null);
+  const [countdown, setCountdown] = useState<number | null>(null);
 
   useEffect(() => {
-    getSession().then(({ user }) => {
+    const supabase = createClient();
+
+    supabase.auth.getUser().then(({ data: { user } }) => {
       setIsAuth(!!user);
     });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuth(!!session?.user);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
+
+  useEffect(() => {
+    if (!rateLimitReset) {
+      setCountdown(null);
+      return;
+    }
+
+    const updateCountdown = () => {
+      const remaining = Math.ceil((rateLimitReset - Date.now()) / 1000);
+      if (remaining <= 0) {
+        setCountdown(null);
+      } else {
+        setCountdown(remaining);
+      }
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+
+    return () => clearInterval(interval);
+  }, [rateLimitReset]);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -103,14 +144,14 @@ export function GenerateInput({ value, setValue, onSubmit, isLoading }: Generate
           <button
             type="button"
             onClick={() => onSubmit()}
-            disabled={!value.trim() || isLoading || isAuth === false}
+            disabled={!value.trim() || isLoading || isAuth === false || countdown !== null}
             className={cn(
               "px-4 py-2 text-sm font-medium rounded-full transition-all",
               "bg-foreground text-background hover:opacity-90",
               "disabled:opacity-50 disabled:cursor-not-allowed",
             )}
           >
-            {isLoading ? "Generating..." : "Generate"}
+            {countdown ? `Wait ${countdown}s` : isLoading ? "Generating..." : "Generate"}
           </button>
         </div>
       </div>

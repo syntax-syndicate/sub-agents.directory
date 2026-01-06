@@ -1,35 +1,41 @@
 "use client";
 
 export function HeroTitle() {
-  const text = "Discover Claude Code sub-agents, prompts and more";
-
   return (
     <div className="text-center mb-8">
       <h1
-        className="text-[21px] mb-2 font-fraunces"
+        className="text-[17px] sm:text-[21px] mb-2 font-fraunces"
         style={{
           opacity: 0,
           animation: "fadeIn 0.2s ease forwards",
         }}
       >
-        {text}
+        Browse 200+ Claude Code Sub-Agent Prompts
       </h1>
 
       <p
-        className="text-[#878787] text-sm"
+        className="text-[#878787] text-sm max-w-md mx-auto"
         style={{
           opacity: 0,
           animation: "fadeIn 0.2s ease forwards 0.1s",
         }}
       >
-        Explore a curated collection of sub-agent prompts and MCP servers. <br />
+        Copy-paste ready prompts for React, Python, TypeScript, and more.
+      </p>
+      <p
+        className="text-[#878787] text-xs mt-2"
+        style={{
+          opacity: 0,
+          animation: "fadeIn 0.2s ease forwards 0.15s",
+        }}
+      >
         <a
-          className="border-b border-border border-dashed"
-          href="https://code.claude.com/docs/en/sub-agents"
+          className="border-b border-border border-dashed hover:text-primary transition-colors"
+          href="https://docs.anthropic.com/en/docs/claude-code/sub-agents"
           target="_blank"
           rel="noreferrer"
         >
-          New to Claude Code? Learn more here.
+          New to Claude Code?
         </a>
       </p>
       <style jsx>{`

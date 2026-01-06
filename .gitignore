@@ -145,3 +145,4 @@ subagents
 
 # Upstream sync tracking
 .upstream-commit
+/src/generated/prisma

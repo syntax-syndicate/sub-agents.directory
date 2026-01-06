@@ -19,17 +19,25 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hashScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const visibleItemsRef = useRef(visibleItems);
   const isLoadingRef = useRef(false);
+  const sectionsRef = useRef(sections);
+
+  const sectionsKey = useMemo(() => sections.map((s) => s.slug).join(","), [sections]);
+
+  useEffect(() => {
+    sectionsRef.current = sections;
+  }, [sections]);
 
   const randomAds = useMemo(() => {
     const adsMap: Record<string, (typeof ads)[0]> = {};
     sections.forEach((section, sectionIndex) => {
       section.rules.forEach((_, ruleIndex) => {
         const position = `${sectionIndex}-${ruleIndex}`;
-        const randomIndex = Math.floor(Math.random() * ads.length);
-        adsMap[position] = ads[randomIndex];
+        const hash = (sectionIndex * 31 + ruleIndex * 17) % ads.length;
+        adsMap[position] = ads[hash];
       });
     });
     return adsMap;
@@ -73,7 +81,8 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
       const hash = decodeURIComponent(window.location.hash.slice(1));
       if (!hash) return;
 
-      const sectionIndex = sections.findIndex((s) => s.slug === hash);
+      const currentSections = sectionsRef.current;
+      const sectionIndex = currentSections.findIndex((s) => s.slug === hash);
       if (sectionIndex === -1) return;
 
       if (sectionIndex >= visibleItemsRef.current) {
@@ -81,7 +90,11 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
         visibleItemsRef.current = sectionIndex + 1;
       }
 
-      setTimeout(() => {
+      if (hashScrollTimeoutRef.current) {
+        clearTimeout(hashScrollTimeoutRef.current);
+      }
+
+      hashScrollTimeoutRef.current = setTimeout(() => {
         const element = document.getElementById(hash);
         if (element) {
           window.scrollTo({
@@ -94,8 +107,13 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
 
     scrollToHash();
     window.addEventListener("hashchange", scrollToHash);
-    return () => window.removeEventListener("hashchange", scrollToHash);
-  }, [sections]);
+    return () => {
+      window.removeEventListener("hashchange", scrollToHash);
+      if (hashScrollTimeoutRef.current) {
+        clearTimeout(hashScrollTimeoutRef.current);
+      }
+    };
+  }, [sectionsKey]);
 
   const handleScroll = useCallback(() => {
     if (scrollTimeoutRef.current) {
@@ -185,7 +203,7 @@ export function RuleList({ sections, small }: { sections: Section[]; small?: boo
                 (totalItemsCount > 2 && (totalItemsCount - 2) % 9 === 0);
 
               return (
-                <Fragment key={`${idx}-${idx2.toString()}`}>
+                <Fragment key={`${section.slug}-${rule.slug}`}>
                   {small ? (
                     <>
                       <RuleCardSmall rule={rule} small />

@@ -14,7 +14,8 @@ export function WebSiteJsonLd({ name = "Sub-Agents Directory", description }: We
     "@type": "WebSite",
     name,
     description:
-      description || "Find the best Claude Code sub-agent prompts for your framework and language",
+      description ||
+      "Browse 200+ Claude Code sub-agent prompts and MCP servers. Copy-paste ready prompts for React, Python, TypeScript, and more.",
     url: BASE_URL,
     potentialAction: {
       "@type": "SearchAction",
@@ -39,7 +40,8 @@ export function OrganizationJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Sub-Agents Directory",
-    description: "The largest directory of Claude Code sub-agent prompts and MCP servers",
+    description:
+      "Browse 200+ Claude Code sub-agent prompts and MCP servers for React, Python, TypeScript, and more.",
     url: BASE_URL,
     logo: `${BASE_URL}/claude-logo.png`,
     sameAs: ["https://github.com/VoltAgent/awesome-claude-code-subagents"],
