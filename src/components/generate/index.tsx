@@ -1,6 +1,5 @@
 "use client";
 
-import { generateRule } from "@/actions/generate-rule";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -31,10 +30,35 @@ export function Generate() {
     setRateLimitReset(null);
 
     try {
-      const { stream } = await generateRule(input);
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input }),
+      });
 
+      if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error("You must be logged in to generate rules");
+        }
+        if (response.status === 429) {
+          const data = await response.json();
+          setRateLimitReset(data.reset);
+          throw new Error("Rate limit exceeded. Please wait before generating again.");
+        }
+        throw new Error("Failed to generate rule");
+      }
+
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error("No response body");
+
+      const decoder = new TextDecoder();
       let accumulated = "";
-      for await (const chunk of stream) {
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
         accumulated += chunk;
         setResult(accumulated);
       }
@@ -42,11 +66,6 @@ export function Generate() {
       setFinished(true);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to generate rule";
-
-      if (message.toLowerCase().includes("rate limit")) {
-        setRateLimitReset(Date.now() + 60000);
-      }
-
       setError(message);
       toast.error(message);
     } finally {
