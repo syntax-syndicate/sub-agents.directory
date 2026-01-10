@@ -4,6 +4,7 @@ import { CopyButton } from "@/components/copy-button";
 import { DownloadButton } from "@/components/download-button";
 import { OpenInDropdown } from "@/components/open-in-dropdown";
 import { ShareButton } from "@/components/share-button";
+import Image from "next/image";
 import Link from "next/link";
 
 interface GenerationViewProps {
@@ -52,10 +53,12 @@ export function GenerationView({ generation }: GenerationViewProps) {
       <div className="mt-6 pt-6 border-t border-dashed border-[#2C2C2C]">
         <Link href={`/u/${generation.user.username}`} className="flex items-center gap-3 group">
           {generation.user.avatarUrl ? (
-            <img
+            <Image
               src={generation.user.avatarUrl}
               alt={generation.user.name || generation.user.username}
-              className="w-10 h-10 rounded-sm grayscale group-hover:grayscale-0 transition-all duration-300"
+              width={40}
+              height={40}
+              className="rounded-sm grayscale group-hover:grayscale-0 transition-all duration-300"
             />
           ) : (
             <div className="w-10 h-10 rounded-sm bg-muted flex items-center justify-center text-sm font-mono">

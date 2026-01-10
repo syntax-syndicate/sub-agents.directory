@@ -1,6 +1,7 @@
 import { getUserByUsername, getUserGenerations } from "@/actions/user";
 import { GenerationCard } from "@/components/generation-card";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 
 type Params = Promise<{ slug: string }>;
@@ -58,10 +59,12 @@ export default async function UserProfilePage({ params }: { params: Params }) {
 
         <div className="flex items-center gap-4 mb-12">
           {user.avatarUrl ? (
-            <img
+            <Image
               src={user.avatarUrl}
               alt={user.name || user.username}
-              className="size-24 border border-border"
+              width={96}
+              height={96}
+              className="border border-border"
             />
           ) : (
             <div className="size-24 border border-border bg-muted flex items-center justify-center text-2xl font-mono">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 interface MemberCardProps {
@@ -18,10 +19,12 @@ export function MemberCard({ member }: MemberCardProps) {
       className="flex border border-border p-2 items-center gap-2 group"
     >
       {member.avatarUrl ? (
-        <img
+        <Image
           src={member.avatarUrl}
           alt={member.name || member.username}
-          className="w-10 h-10 rounded-sm grayscale group-hover:grayscale-0 transition-all duration-300"
+          width={40}
+          height={40}
+          className="rounded-sm grayscale group-hover:grayscale-0 transition-all duration-300"
         />
       ) : (
         <div className="w-10 h-10 rounded-sm bg-muted flex items-center justify-center text-sm font-medium">
