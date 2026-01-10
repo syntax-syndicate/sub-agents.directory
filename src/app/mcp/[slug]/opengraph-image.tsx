@@ -2,8 +2,6 @@ import { ImageResponse } from "@vercel/og";
 import mcpData from "@/data/mcp";
 import slugify from "slugify";
 
-export const runtime = "edge";
-
 export const alt = "MCP Server";
 export const size = {
   width: 1200,

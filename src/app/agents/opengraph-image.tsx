@@ -1,7 +1,5 @@
 import { ImageResponse } from "@vercel/og";
 
-export const runtime = "edge";
-
 export const alt = "Browse All Claude Code Sub-Agents";
 export const size = {
   width: 1200,

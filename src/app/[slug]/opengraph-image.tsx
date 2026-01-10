@@ -1,7 +1,5 @@
 import { ImageResponse } from "@vercel/og";
 
-export const runtime = "edge";
-
 export const alt = "Claude Code Sub-Agent";
 export const size = {
   width: 1200,
